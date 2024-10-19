@@ -4,13 +4,47 @@ import User from "../model/user.model.js";
 import generateTokenAndSetCookie from "../utils/generateJWTcookie.js";
 
 export const login = async (req, res) => {
-  console.log("Login is triggered");
-  res.send("Login successfully");
+  const { phone, password } = req.body;
+
+  try {
+    if (!phone || !password) {
+      res.status(400).json({ error: "Fill out all the field" });
+    }
+    const user = await User.findOne({ phone: Number(phone) });
+
+    const isPasswordCorrect =
+      (await bcrypt.compare(password, user?.password)) || "";
+
+    if (!user || !isPasswordCorrect) {
+      return res.status(400).json({ error: "Invalid Credentials" });
+    }
+
+    generateTokenAndSetCookie(user._id, res);
+
+    res.status(201).json({
+      _id: user._id,
+      fullname: user.fullname,
+      username: user.username,
+      profilepic: user.profilepic,
+    });
+  } catch (error) {
+    console.log("Error in Login ", error);
+    res.status(500).send(error.message);
+  }
 };
 
 export const logout = async (req, res) => {
-  console.log("Logout is triggered");
-  res.send("Logout successfully");
+  try {
+    res
+      .cookie("jwt", "", {
+        maxAge: 0,
+      })
+      .status(200)
+      .json({ message: "Logout Successfully" });
+  } catch (error) {
+    console.log("Error in Logout ", error);
+    res.status(500).send(error.message);
+  }
 };
 
 export const signup = async (req, res) => {
