@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser";
 
 import authRoutes from "./routes/auth.routes.js";
 import messageRoutes from "./routes/message.routes.js";
+import userRoutes from "./routes/user.routes.js";
 import connectToMongo from "./db/connectToMongo.js";
 
 dotenv.config();
@@ -21,6 +22,7 @@ app.get("/", (req, res) => {
 
 app.use("/api/auth", authRoutes);
 app.use("/api/message", messageRoutes);
+app.use("/api/user", userRoutes);
 
 app.listen(PORT, () => {
   connectToMongo();
