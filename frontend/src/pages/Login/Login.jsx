@@ -1,12 +1,16 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [formData, setFormData] = useState({});
+
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     console.log(formData);
+    navigate("/");
   };
 
   const handleChange = (e) => {
@@ -28,7 +32,7 @@ const Login = () => {
             </label>
 
             <input
-              type="number"
+              type="text"
               id="phone"
               className="input input-bordered w-full "
               onChange={handleChange}
@@ -64,7 +68,7 @@ const Login = () => {
 
         <p className="text-sm text-center text-gray-600">
           {"Don't"} have an account?{" "}
-          <a href="#" className="text-indigo-500 hover:underline">
+          <a href="/signup" className="text-indigo-500 hover:underline">
             Sign up
           </a>
         </p>
