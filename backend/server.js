@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
+import cors from "cors";
 
 import authRoutes from "./routes/auth.routes.js";
 import messageRoutes from "./routes/message.routes.js";
@@ -13,6 +14,14 @@ const app = express();
 
 app.use(express.json());
 app.use(cookieParser());
+
+// Enable CORS for all requests or specify your frontend origin
+app.use(
+  cors({
+    origin: "http://localhost:5173", // Frontend URL
+    credentials: true, // To allow cookies if needed
+  })
+);
 
 const PORT = process.env.PORT || 5000;
 

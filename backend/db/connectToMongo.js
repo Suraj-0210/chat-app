@@ -5,7 +5,7 @@ export const connectToMongo = async () => {
     await mongoose.connect(process.env.MONGO_DB_URI);
     console.log("Database is Connected");
   } catch (error) {
-    console("Error happend: ", error.message);
+    console.log("Error happend: ", error.message);
   }
 };
 
